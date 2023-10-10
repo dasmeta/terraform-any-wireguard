@@ -1,11 +1,6 @@
-variable "name" {
+variable "server_public_ip" {
   type        = string
-  description = "The name to use of instance/machine"
-}
-
-variable "vpc_id" {
-  type        = string
-  description = "The vpc id"
+  description = "Wireguard server public static IP"
 }
 
 variable "server_private_key" { # TODO: we probably need to have this set as sensitive
@@ -36,18 +31,6 @@ variable "clients" {
   description = "Wireguard clients/peers list with configs"
 }
 
-variable "ubuntu_version" {
-  type        = string
-  description = "The version of ubuntu to use"
-  default     = "ubuntu-focal-20.04"
-}
-
-variable "instance_type" {
-  type        = string
-  default     = "t2.micro"
-  description = "The wireguard server machine instance type"
-}
-
 variable "server_port" {
   type        = number
   default     = 51820
@@ -66,25 +49,8 @@ variable "keep_alive" {
   description = "CLients peer connection persistance keep alive config"
 }
 
-variable "ssh_key_name" {
-  type        = string
-  default     = null
-  description = "The ssh key to attach to instances"
-}
-
 variable "ingress" {
   type        = list(any)
   default     = ["0.0.0.0/0"] # default to all
   description = "The IPs/CIDRs from where the instance wireguard and ssh port are open to connect"
-}
-
-variable "vpc_subnet_additional_filter" {
-  type = list(any)
-  default = [
-    {
-      name   = "map-public-ip-on-launch" # to filter public subnets
-      values = [true]
-    }
-  ]
-  description = "Additional filters to get subnet under vpc, where instance will be created"
 }

@@ -1,0 +1,20 @@
+content: |-
+  # This is tooling/helper central module for wireguard server and client configs generation
+  it actually have no any provider and just preparing server and client config files based on template
+
+  ## Resources
+  {{ range .Module.Resources }}
+  - {{ .GetMode }}.{{ .Spec }} ({{ .Position.Filename }}#{{ .Position.Line }})
+  {{- end }}
+
+  ## Examples
+
+  ```hcl
+  {{ include "tests/basic/1-example.tf" }}
+  ```
+
+  {{ .Providers }}
+
+  {{ .Outputs }}
+
+  {{ .Inputs }}

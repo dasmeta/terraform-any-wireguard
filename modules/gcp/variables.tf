@@ -3,9 +3,9 @@ variable "name" {
   description = "The name to use of instance/machine"
 }
 
-variable "vpc_id" {
+variable "vpc_name" {
   type        = string
-  description = "The vpc id"
+  description = "The vpc name where wireguard server instance will be created"
 }
 
 variable "server_private_key" { # TODO: we probably need to have this set as sensitive
@@ -39,19 +39,40 @@ variable "clients" {
 variable "ubuntu_version" {
   type        = string
   description = "The version of ubuntu to use"
-  default     = "ubuntu-focal-20.04"
+  default     = "ubuntu-os-cloud/ubuntu-2004-focal-v20220712"
 }
 
 variable "instance_type" {
   type        = string
-  default     = "t2.micro"
+  default     = "f1-micro"
   description = "The wireguard server machine instance type"
+}
+
+variable "region" {
+  type        = string
+  description = "The region where wireguard server instance and related resources will be created"
+  default     = "europe-central2"
+}
+
+variable "zone" {
+  type        = string
+  description = "The zone where wireguard server instance will be created"
+  default     = "europe-central2-a"
 }
 
 variable "server_port" {
   type        = number
   default     = 51820
   description = "Wireguard server port number"
+}
+
+variable "ssh_keys" {
+  type = list(object({
+    username   = string
+    public_key = string # the public key is in OpenSSH format (for example: 'ssh-rsa AAAAC3NzaC1lZDI... me@my-domain')
+  }))
+  default     = []
+  description = "The ssh usernames and public keys to set in wireguard server instance to be able to connect to it from local to do some debugging"
 }
 
 variable "dns" {
@@ -66,25 +87,8 @@ variable "keep_alive" {
   description = "CLients peer connection persistance keep alive config"
 }
 
-variable "ssh_key_name" {
-  type        = string
-  default     = null
-  description = "The ssh key to attach to instances"
-}
-
 variable "ingress" {
   type        = list(any)
   default     = ["0.0.0.0/0"] # default to all
   description = "The IPs/CIDRs from where the instance wireguard and ssh port are open to connect"
-}
-
-variable "vpc_subnet_additional_filter" {
-  type = list(any)
-  default = [
-    {
-      name   = "map-public-ip-on-launch" # to filter public subnets
-      values = [true]
-    }
-  ]
-  description = "Additional filters to get subnet under vpc, where instance will be created"
 }
