@@ -1,5 +1,5 @@
 output "public_ip" {
-  value = aws_eip.this.public_ip
+  value = google_compute_address.this.address
 }
 
 output "client_configs" {

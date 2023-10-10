@@ -1,8 +1,8 @@
 module "this" {
-  source = "../../" # check/set terraform registry value before using this in your setups: https://registry.terraform.io/modules/dasmeta/wireguard/any/latest/submodules/aws
+  source = "../../" # check/set terraform registry value before using this in your setups: https://registry.terraform.io/modules/dasmeta/wireguard/any/latest/submodules/gcp
 
-  name   = "wireguard-test-2"
-  vpc_id = "vpc-046effd7e14742653"
+  name     = "wireguard-test-2"
+  vpc_name = "default"
 
   server_private_key = "CEXfZgx+G/rzVOawGWaMhFYKkMeTqI0BSr99Shbeb28="
   server_public_key  = "6sPQH8RvnPmS8vGUpF050/S+PZu4yYQFowF1WAga7xg="
