@@ -10,7 +10,9 @@ jobs:
       matrix:
         path:
           - ./
+          - modules/wg-configs
           - modules/aws
+          - modules/gcp
     permissions:
       actions: write
       contents: write
