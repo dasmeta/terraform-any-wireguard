@@ -32,6 +32,17 @@ resource "aws_security_group" "this" {
     }
   }
 
+  dynamic "ingress" {
+    for_each = var.additional_sg_ingress != null ? [1] : []
+
+    content {
+      from_port   = var.additional_sg_ingress.from_port
+      to_port     = var.additional_sg_ingress.to_port
+      protocol    = var.additional_sg_ingress.protocol
+      cidr_blocks = var.additional_sg_ingress.cidr_blocks
+    }
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -48,6 +59,7 @@ resource "aws_instance" "this" {
   vpc_security_group_ids      = [aws_security_group.this.id]
   key_name                    = var.ssh_key_name
   user_data_replace_on_change = true
+  source_dest_check           = var.source_dest_check
 
   user_data = module.wg_configs.startup_script
 
