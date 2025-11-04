@@ -78,6 +78,23 @@ variable "ingress" {
   description = "The IPs/CIDRs from where the instance wireguard and ssh port are open to connect"
 }
 
+variable "source_dest_check" {
+  type = bool
+  default = true
+  description = " Controls if traffic is routed to the instance when the destination address does not match the instance. Used for NAT or VPNs. Defaults true."
+}
+
+variable "additional_sg_ingress" {
+  description = "Optional additional ingress rule for the security group"
+  type = object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  })
+  default = null
+}
+
 variable "vpc_subnet_additional_filter" {
   type = list(any)
   default = [
